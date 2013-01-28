@@ -36,7 +36,31 @@ class PaymentTransferujPl extends IsotopePayment
 	 */
 	public function processPayment()
 	{
-		return true;
+		$objOrder = new IsotopeOrder();
+
+		// Return false if order was not found
+		if (!$objOrder->findBy('cart_id', $this->Isotope->Cart->id))
+		{
+			return false;
+		}
+
+		// Return true if payment was successful
+		if ($objOrder->date_paid > 0 && $objOrder->date_paid <= time())
+		{
+			IsotopeFrontend::clearTimeout();
+			return true;
+		}
+
+		if (IsotopeFrontend::setTimeout())
+		{
+			$objTemplate = new FrontendTemplate('mod_message');
+			$objTemplate->type = 'processing';
+			$objTemplate->message = $GLOBALS['TL_LANG']['MSC']['payment_processing'];
+			return $objTemplate->parse();
+		}
+
+		$this->log('Payment could not be processed.', 'PaymentTransferujPl processPostSale()', TL_ERROR);
+		$this->redirect($this->addToUrl('step=failed', true));
 	}
 
 
@@ -62,23 +86,22 @@ class PaymentTransferujPl extends IsotopePayment
 				return;
 			}
 
-			// Checkout failed
-			if (!$objOrder->checkout())
-			{
-				$this->log('Transferuj.pl checkout for order ID "' . $objOrder->id . '" failed', 'PaymentTransferujPl processPostSale()', TL_ERROR);
-				return;
-			}
-
 			$strHash = md5($this->transferujpl_id . $this->Input->post('tr_id') . $objOrder->grandTotal . $objOrder->id . $this->transferujpl_code);
 
 			if ($this->Input->post('md5sum') == $strHash)
 			{
-				// Store the payment data
+				// Checkout failed
+				if (!$objOrder->checkout())
+				{
+					$this->log('Transferuj.pl checkout for order ID "' . $objOrder->id . '" failed', 'PaymentTransferujPl processPostSale()', TL_ERROR);
+					return;
+				}
+
 				$arrPayment = deserialize($objOrder->payment_data, true);
 				$arrPayment['POSTSALE'][] = $_POST;
 				$objOrder->payment_data = $arrPayment;
 
-				$objOrder->date_paid = $time;
+				$objOrder->date_paid = time();
 				$objOrder->save();
 
 				$this->log('Transferuj.pl data accepted for order ID "' . $objOrder->id . '"', 'PaymentTransferujPl processPostSale()', TL_GENERAL);
@@ -95,6 +118,7 @@ class PaymentTransferujPl extends IsotopePayment
 	 */
 	public function checkoutForm()
 	{
+		IsotopeFrontend::clearTimeout();
 		$arrProducts = array();
 		$objOrder = new IsotopeOrder();
 		$objOrder->findBy('cart_id', $this->Isotope->Cart->id);
@@ -158,11 +182,60 @@ window.addEvent( \'domready\' , function() {
 
 
 	/**
-	 * Return a list of valid credit card types for this payment module
-	 * @return array
+	 * Return information or advanced features in the backend
+	 * @param integer
+	 * @return string
 	 */
-	public function getAllowedCCTypes()
+	public function backendInterface($orderId)
 	{
-		return array();
+		$objOrder = new IsotopeOrder();
+
+		if (!$objOrder->findBy('id', $orderId))
+		{
+			return parent::backendInterface($orderId);
+		}
+
+		$arrPayment = $objOrder->payment_data;
+
+		if (!is_array($arrPayment['POSTSALE']) || empty($arrPayment['POSTSALE']))
+		{
+			return parent::backendInterface($orderId);
+		}
+
+		$arrPayment = array_pop($arrPayment['POSTSALE']);
+		ksort($arrPayment);
+		$i = 0;
+
+		$strBuffer = '
+<div id="tl_buttons">
+<a href="'.ampersand(str_replace('&key=payment', '', $this->Environment->request)).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+</div>
+
+<h2 class="sub_headline">' . $this->name . ' (' . $GLOBALS['ISO_LANG']['PAY'][$this->type][0] . ')' . '</h2>
+
+<table class="tl_show">
+<tbody>';
+
+		foreach ($arrPayment as $k => $v)
+		{
+			if (is_array($v))
+			{
+				continue;
+			}
+
+			$strBuffer .= '
+  <tr>
+    <td' . ($i%2 ? '' : ' class="tl_bg"') . '><span class="tl_label">' . $k . ': </span></td>
+    <td' . ($i%2 ? '' : ' class="tl_bg"') . '>' . $v . '</td>
+  </tr>';
+
+			++$i;
+        }
+
+        $strBuffer .= '
+</tbody></table>
+</div>';
+
+		return $strBuffer;
 	}
 }
