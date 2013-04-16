@@ -146,6 +146,7 @@ class PaymentTransferujPl extends IsotopePayment
 		list($endTag, $startScript, $endScript) = IsotopeFrontend::getElementAndScriptTags();
 		$intPrice = number_format($this->Isotope->Cart->grandTotal, 2, '.', '');
 		$strHash = md5($this->transferujpl_id . $intPrice . $this->transferujpl_code);
+		$objAddress = (ISO_VERSION < 1.4) ? (object) $this->Isotope->Cart->billingAddress : $this->Isotope->Cart->billingAddress;
 
 		$strBuffer .= '
 <h2>' . $GLOBALS['TL_LANG']['MSC']['pay_with_transferujpl'][0] . '</h2>
@@ -159,14 +160,14 @@ class PaymentTransferujPl extends IsotopePayment
 <input type="hidden" name="wyn_url" value="' . $this->Environment->base . 'system/modules/isotope/postsale.php?mod=pay&id=' . $this->id . '"' . $endTag . '
 <input type="hidden" name="pow_url" value="' . $this->Environment->base . IsotopeFrontend::addQueryStringToUrl('uid=' . $objOrder->uniqid, $this->addToUrl('step=complete')) . '"' . $endTag . '
 <input type="hidden" name="pow_url_blad" value="' . $this->Environment->base . $this->addToUrl('step=failed') . '"' . $endTag . '
-<input type="hidden" name="email" value="' . $this->Isotope->Cart->billingAddress['email'] . '"' . $endTag . '
-<input type="hidden" name="nazwisko" value="' . $this->Isotope->Cart->billingAddress['lastname'] . '"' . $endTag . '
-<input type="hidden" name="imie" value="' . $this->Isotope->Cart->billingAddress['firstname'] . '"' . $endTag . '
-<input type="hidden" name="adres" value="' . $this->Isotope->Cart->billingAddress['street_1'] . '"' . $endTag . '
-<input type="hidden" name="miasto" value="' . $this->Isotope->Cart->billingAddress['city'] . '"' . $endTag . '
-<input type="hidden" name="kod" value="' . $this->Isotope->Cart->billingAddress['postal'] . '"' . $endTag . '
-<input type="hidden" name="kraj" value="' . $this->Isotope->Cart->billingAddress['country'] . '"' . $endTag . '
-<input type="hidden" name="telefon" value="' . $this->Isotope->Cart->billingAddress['phone'] . '"' . $endTag . '
+<input type="hidden" name="email" value="' . $objAddress->email . '"' . $endTag . '
+<input type="hidden" name="nazwisko" value="' . $objAddress->lastname . '"' . $endTag . '
+<input type="hidden" name="imie" value="' . $objAddress->firstname . '"' . $endTag . '
+<input type="hidden" name="adres" value="' . $objAddress->street_1 . '"' . $endTag . '
+<input type="hidden" name="miasto" value="' . $objAddress->city . '"' . $endTag . '
+<input type="hidden" name="kod" value="' . $objAddress->postal . '"' . $endTag . '
+<input type="hidden" name="kraj" value="' . $objAddress->country . '"' . $endTag . '
+<input type="hidden" name="telefon" value="' . $objAddress->phone . '"' . $endTag . '
 <input type="hidden" name="jezyk" value="' . $GLOBALS['TL_LANGUAGE'] . '"' . $endTag . '
 <input type="submit" value="' . specialchars($GLOBALS['TL_LANG']['MSC']['pay_with_transferujpl'][2]) . '"' . $endTag . '
 </form>
