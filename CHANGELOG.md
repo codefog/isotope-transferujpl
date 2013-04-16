@@ -1,6 +1,13 @@
 isotope_transferujpl Changelog
 ==============================
 
+Version 1.1.1 stable (2013-04-16)
+---------------------------------
+
+### Fixed
+- Fixed the address error in Isotope 1.4 (see #1)
+
+
 Version 1.1.0 stable (2013-01-28)
 ---------------------------------
 
