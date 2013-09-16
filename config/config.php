@@ -2,11 +2,11 @@
 
 /**
  * isotope_transferujpl extension for Contao Open Source CMS
- * 
- * Copyright (C) 2012 Codefog
- * 
+ *
+ * Copyright (C) 2013 Codefog Ltd
+ *
  * @package isotope_transferujpl
- * @link    http://codefog.pl
+ * @author  Codefog Ltd <http://codefog.pl>
  * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
  * @license LGPL
  */
@@ -16,7 +16,7 @@
  * Extension version
  */
 @define('ISOTOPE_TRANSFERUJPL_VERSION', '1.1');
-@define('ISOTOPE_TRANSFERUJPL_BUILD', '1');
+@define('ISOTOPE_TRANSFERUJPL_BUILD', '2');
 
 
 /**
