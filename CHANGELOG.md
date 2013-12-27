@@ -1,6 +1,13 @@
 isotope_transferujpl Changelog
 ==============================
 
+Version 2.0.0 stable (2013-12-27)
+---------------------------------
+
+### Improved
+- Extension is now compatible with Isotope 2
+
+
 Version 1.1.2 stable (2013-09-16)
 ---------------------------------
 

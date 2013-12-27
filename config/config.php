@@ -3,10 +3,10 @@
 /**
  * isotope_transferujpl extension for Contao Open Source CMS
  *
- * Copyright (C) 2013 Codefog Ltd
+ * Copyright (C) 2013 Codefog
  *
  * @package isotope_transferujpl
- * @author  Codefog Ltd <http://codefog.pl>
+ * @author  Codefog <http://codefog.pl>
  * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
  * @license LGPL
  */
@@ -15,21 +15,17 @@
 /**
  * Extension version
  */
-@define('ISOTOPE_TRANSFERUJPL_VERSION', '1.1');
-@define('ISOTOPE_TRANSFERUJPL_BUILD', '2');
+@define('ISOTOPE_TRANSFERUJPL_VERSION', '2.0');
+@define('ISOTOPE_TRANSFERUJPL_BUILD', '0');
 
 
 /**
  * Payment modules
  */
-$GLOBALS['ISO_PAY']['transferujpl'] = 'PaymentTransferujPl';
+\Isotope\Model\Payment::registerModelType('transferujpl', 'Isotope\Model\Payment\TransferujPl');
 
 
 /**
- * Hack the postsale process
+ * Hooks
  */
-if ($_POST['tr_status'] && $_POST['id'])
-{
-	$_POST['transferujpl_id'] = $_POST['id'];
-	unset($_POST['id']);
-}
+$GLOBALS['ISO_HOOKS']['initializePostsale'][] = array('Isotope\Model\Payment\TransferujPl', 'updatePaymentId');

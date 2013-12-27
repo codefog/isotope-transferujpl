@@ -1,0 +1,27 @@
+<h2><?php echo $this->headline; ?></h2>
+<p class="message"><?php echo $this->message; ?></p>
+<form id="transferujpl<?php echo $this->id; ?>" action="https://secure.transferuj.pl" method="post">
+<input type="hidden" name="id" value="<?php echo $this->transferujpl_id; ?>">
+<input type="hidden" name="kwota" value="<?php echo $this->amount; ?>">
+<input type="hidden" name="crc" value="<?php echo $this->order_id; ?>">
+<input type="hidden" name="opis" value="<?php echo $this->products; ?>">
+<input type="hidden" name="md5" value="<?php echo $this->hash; ?>">
+<input type="hidden" name="wyn_url" value="<?php echo $this->postsaleUrl; ?>">
+<input type="hidden" name="pow_url" value="<?php echo $this->successUrl; ?>">
+<input type="hidden" name="pow_url_blad" value="<?php echo $this->errorUrl; ?>">
+<input type="hidden" name="imie" value="<?php echo $this->address->firstname; ?>">
+<input type="hidden" name="nazwisko" value="<?php echo $this->address->lastname; ?>">
+<input type="hidden" name="email" value="<?php echo $this->address->email; ?>">
+<input type="hidden" name="adres" value="<?php echo $this->address->street_1; ?>">
+<input type="hidden" name="kod" value="<?php echo $this->address->postal; ?>">
+<input type="hidden" name="miasto" value="<?php echo $this->address->city; ?>">
+<input type="hidden" name="kraj" value="<?php echo $this->address->country; ?>">
+<input type="hidden" name="telefon" value="<?php echo $this->address->phone; ?>">
+<input type="hidden" name="jezyk" value="<?php echo $this->language; ?>">
+<noscript>
+<input type="submit" value="<?php echo $this->slabel; ?>">
+</noscript>
+</form>
+<script>
+document.getElementById('transferujpl<?php echo $this->id; ?>').submit();
+</script>
