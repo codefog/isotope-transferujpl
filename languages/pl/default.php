@@ -3,10 +3,10 @@
 /**
  * isotope_transferujpl extension for Contao Open Source CMS
  *
- * Copyright (C) 2013 Codefog Ltd
+ * Copyright (C) 2013 Codefog
  *
  * @package isotope_transferujpl
- * @author  Codefog Ltd <http://codefog.pl>
+ * @author  Codefog <http://codefog.pl>
  * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
  * @license LGPL
  */
@@ -15,7 +15,7 @@
 /**
  * Payment modules
  */
-$GLOBALS['ISO_LANG']['PAY']['transferujpl'] = array('Transferuj.pl');
+$GLOBALS['TL_LANG']['MODEL']['tl_iso_payment.transferujpl'] = array('Transferuj.pl', 'Płatności przez Transferuj.pl');
 
 
 /**
