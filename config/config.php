@@ -15,8 +15,8 @@
 /**
  * Extension version
  */
-@define('ISOTOPE_TRANSFERUJPL_VERSION', '1.1');
-@define('ISOTOPE_TRANSFERUJPL_BUILD', '2');
+@define('ISOTOPE_TRANSFERUJPL_VERSION', '2.0');
+@define('ISOTOPE_TRANSFERUJPL_BUILD', '0');
 
 
 /**
