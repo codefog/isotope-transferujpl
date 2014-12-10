@@ -1,6 +1,13 @@
 isotope_transferujpl Changelog
 ==============================
 
+Version 2.0.1 stable (2014-??-??)
+---------------------------------
+
+### Fixed
+- The products are no longer sent in the payment description
+
+
 Version 2.0.0 stable (2013-12-27)
 ---------------------------------
 
