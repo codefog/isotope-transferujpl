@@ -21,4 +21,5 @@ $GLOBALS['TL_LANG']['MODEL']['tl_iso_payment.transferujpl'] = array('Transferuj.
 /**
  * Miscellaneous
  */
+$GLOBALS['TL_LANG']['MSC']['transferujpl_order']    = 'Zamówienie nr %s';
 $GLOBALS['TL_LANG']['MSC']['pay_with_transferujpl'] = array('Zapłać przez Transferuj.pl', 'Zostaniesz przekierowany na stronę Transferuj.pl, gdzie możesz dokonać transakcji. Jeśli nie jesteś automatycznie przekierowany, kliknij przycisk "Zapłać teraz".', 'Zapłać teraz');
