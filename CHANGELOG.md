@@ -1,7 +1,7 @@
 isotope_transferujpl Changelog
 ==============================
 
-Version 2.0.1 stable (2014-??-??)
+Version 2.0.1 stable (2014-12-10)
 ---------------------------------
 
 ### Fixed
