@@ -98,33 +98,6 @@ class TransferujPl extends Postsale implements IsotopePayment
      */
     public function checkoutForm(IsotopeProductCollection $objOrder, \Module $objModule)
     {
-        $arrProducts = array();
-
-        foreach ($objOrder->getItems() as $objItem)
-        {
-            // Set the active product for insert tags replacement
-            Product::setActive($objItem->getProduct());
-
-            $strOptions = '';
-            $arrOptions = Isotope::formatOptions($objItem->getOptions());
-
-            Product::unsetActive();
-
-            if (is_array($arrOptions) && count($arrOptions))
-            {
-                $options = array();
-
-                foreach ($arrOptions as $option)
-                {
-                    $options[] = $option['label'] . ': ' . $option['value'];
-                }
-
-                $strOptions = ' (' . implode(', ', $options) . ')';
-            }
-
-            $arrProducts[] = specialchars($objItem->getName() . $strOptions);
-        }
-
         $strPrice = number_format(round($objOrder->getTotal(), 2), 2, '.', '');
 
         $objTemplate = new \Isotope\Template('iso_payment_transferujpl');
@@ -133,7 +106,7 @@ class TransferujPl extends Postsale implements IsotopePayment
         $objTemplate->id = $this->id;
         $objTemplate->order_id = $objOrder->id;
         $objTemplate->amount = $strPrice;
-        $objTemplate->products = implode(', ', $arrProducts);
+        $objTemplate->products = specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['transferujpl_order'], $objOrder->uniqid));
         $objTemplate->hash = md5($this->transferujpl_id . $strPrice . $this->transferujpl_code);
         $objTemplate->postsaleUrl = \Environment::get('base') . 'system/modules/isotope/postsale.php?mod=pay&id=' . $this->id;
         $objTemplate->successUrl = \Environment::get('base') . $objModule->generateUrlForStep('complete', $objOrder);
