@@ -6,6 +6,7 @@ Version 2.0.2 stable (2014-12-??)
 
 ### Fixed
 - Added the composer.json file
+- Updated the readme file
 
 
 Version 2.0.1 stable (2014-12-10)
