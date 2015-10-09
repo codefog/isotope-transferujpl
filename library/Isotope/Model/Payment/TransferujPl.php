@@ -14,8 +14,9 @@
 namespace Isotope\Model\Payment;
 
 use Isotope\Interfaces\IsotopeProductCollection;
-use Isotope\Isotope;
+use Isotope\PostSale as IsotopePostsale;
 use Isotope\Interfaces\IsotopePayment;
+use Isotope\Model\Payment\Postsale as PostsaleModel;
 use Isotope\Model\Product;
 use Isotope\Model\ProductCollection\Order;
 
@@ -24,18 +25,20 @@ use Isotope\Model\ProductCollection\Order;
  *
  * Provide a payment method "Transferuj.pl" for Isotope.
  */
-class TransferujPl extends Postsale implements IsotopePayment
+class TransferujPl extends PostsaleModel implements IsotopePayment
 {
 
     /**
      * Update the payment ID (postsale workaround)
+     *
+     * @param IsotopePostsale $postsale
      */
-    public function updatePaymentId()
+    public function updatePaymentId(IsotopePostsale $postsale)
     {
         if ($_POST['tr_status'] && $_POST['id'])
         {
             $_POST['transferujpl_id'] = $_POST['id'];
-            unset($_POST['id']);
+            $postsale->setModuleId((int) \Input::get('id'));
         }
     }
 
@@ -107,7 +110,7 @@ class TransferujPl extends Postsale implements IsotopePayment
         $objTemplate->order_id = $objOrder->id;
         $objTemplate->amount = $strPrice;
         $objTemplate->products = specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['transferujpl_order'], $objOrder->uniqid));
-        $objTemplate->hash = md5($this->transferujpl_id . $strPrice . $this->transferujpl_code);
+        $objTemplate->hash = md5($this->transferujpl_id . $strPrice . $objOrder->id . $this->transferujpl_code);
         $objTemplate->postsaleUrl = \Environment::get('base') . 'system/modules/isotope/postsale.php?mod=pay&id=' . $this->id;
         $objTemplate->successUrl = \Environment::get('base') . $objModule->generateUrlForStep('complete', $objOrder);
         $objTemplate->errorUrl = \Environment::get('base') . $objModule->generateUrlForStep('failed');

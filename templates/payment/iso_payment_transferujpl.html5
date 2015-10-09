@@ -5,7 +5,7 @@
 <input type="hidden" name="kwota" value="<?php echo $this->amount; ?>">
 <input type="hidden" name="crc" value="<?php echo $this->order_id; ?>">
 <input type="hidden" name="opis" value="<?php echo $this->products; ?>">
-<input type="hidden" name="md5" value="<?php echo $this->hash; ?>">
+<input type="hidden" name="md5sum" value="<?php echo $this->hash; ?>">
 <input type="hidden" name="wyn_url" value="<?php echo $this->postsaleUrl; ?>">
 <input type="hidden" name="pow_url" value="<?php echo $this->successUrl; ?>">
 <input type="hidden" name="pow_url_blad" value="<?php echo $this->errorUrl; ?>">
