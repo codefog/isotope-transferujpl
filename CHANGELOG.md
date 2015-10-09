@@ -6,6 +6,7 @@ Version 2.0.3 stable (2015-10-??)
 
 ### Fixed
 - Fixed the hash generation and setting the incoming ID of payment method
+- Fixed error upon invoice generation
 
 ### Improved
 - Added the .gitignore file

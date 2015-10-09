@@ -14,7 +14,7 @@
 namespace Isotope\Model\Payment;
 
 use Isotope\Interfaces\IsotopeProductCollection;
-use Isotope\PostSale;
+use Isotope\PostSale as IsotopePostsale;
 use Isotope\Interfaces\IsotopePayment;
 use Isotope\Model\Payment\Postsale as PostsaleModel;
 use Isotope\Model\Product;
@@ -31,9 +31,9 @@ class TransferujPl extends PostsaleModel implements IsotopePayment
     /**
      * Update the payment ID (postsale workaround)
      *
-     * @param PostSale $postsale
+     * @param IsotopePostsale $postsale
      */
-    public function updatePaymentId(PostSale $postsale)
+    public function updatePaymentId(IsotopePostsale $postsale)
     {
         if ($_POST['tr_status'] && $_POST['id'])
         {
